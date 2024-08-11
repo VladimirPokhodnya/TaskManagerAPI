@@ -1,6 +1,5 @@
-package com.github.vladimirpokhodnya.authjwtapi.config;
+package com.github.vladimirpokhodnya.authjwtapi.token;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;

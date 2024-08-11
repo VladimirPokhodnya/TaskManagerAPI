@@ -1,7 +1,7 @@
 package com.github.vladimirpokhodnya.authjwtapi.user;
 
-import com.github.vladimirpokhodnya.authjwtapi.config.JwtUtil;
-import com.github.vladimirpokhodnya.authjwtapi.user.dto.AuthResponse;
+import com.github.vladimirpokhodnya.authjwtapi.token.JwtUtil;
+import com.github.vladimirpokhodnya.authjwtapi.token.controller.AuthResponse;
 import com.github.vladimirpokhodnya.authjwtapi.user.dto.UserMapper;
 import com.github.vladimirpokhodnya.authjwtapi.user.dto.UserRegisterDTO;
 import lombok.AllArgsConstructor;
@@ -36,5 +36,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByName(username);
     }
 }
+
 
 

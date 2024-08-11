@@ -1,5 +1,6 @@
-package com.github.vladimirpokhodnya.authjwtapi.exception;
+package com.github.vladimirpokhodnya.authjwtapi.token.exception;
 
+import com.github.vladimirpokhodnya.authjwtapi.token.controller.ErrorResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +12,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
-        return new ResponseEntity<>("Пользователь с таким именем или почтой уже существует.", HttpStatus.CONFLICT);
+
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+
+        String message = "Пользователь с таким именем или почтой уже существует.";
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(message));
+
     }
 
     @ExceptionHandler(UserNotFoundException.class)
@@ -29,7 +35,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(Exception.class) // Общая обработка всех остальных исключений
+    @ExceptionHandler(Exception.class)
 
     public ResponseEntity<String> handleGenericException(Exception ex) {
 

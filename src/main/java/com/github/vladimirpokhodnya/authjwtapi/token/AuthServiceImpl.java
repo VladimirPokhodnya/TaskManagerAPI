@@ -1,27 +1,24 @@
-package com.github.vladimirpokhodnya.authjwtapi.user;
+package com.github.vladimirpokhodnya.authjwtapi.token;
 
-import com.github.vladimirpokhodnya.authjwtapi.config.JwtUtil;
-import com.github.vladimirpokhodnya.authjwtapi.exception.InvalidCredentialsException;
-import com.github.vladimirpokhodnya.authjwtapi.exception.UserNotFoundException;
+import com.github.vladimirpokhodnya.authjwtapi.token.controller.AuthResponse;
+import com.github.vladimirpokhodnya.authjwtapi.token.exception.InvalidCredentialsException;
+import com.github.vladimirpokhodnya.authjwtapi.token.exception.UserNotFoundException;
+import com.github.vladimirpokhodnya.authjwtapi.user.UserEntity;
+import com.github.vladimirpokhodnya.authjwtapi.user.UserService;
+import com.github.vladimirpokhodnya.authjwtapi.user.dto.UserRegisterDTO;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class AuthService {
+@AllArgsConstructor
+public class AuthServiceImpl implements AuthService{
 
     private final UserService userService;
-
     private final PasswordEncoder passwordEncoder;
-
     private final JwtUtil jwtUtil;
-
-    public AuthService(UserService userService, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
-    }
 
     public String authenticate(String username, String password) throws UserNotFoundException, InvalidCredentialsException {
         Optional<UserEntity> user = userService.getUserByName(username);
@@ -35,4 +32,9 @@ public class AuthService {
             throw new InvalidCredentialsException("Неверный пароль");
         }
     }
+
+    public AuthResponse registerUser(UserRegisterDTO registerDTO) {
+        return userService.registerUser(registerDTO);
+    }
 }
+

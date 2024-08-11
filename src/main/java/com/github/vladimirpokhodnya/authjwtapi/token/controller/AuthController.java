@@ -1,32 +1,28 @@
-package com.github.vladimirpokhodnya.authjwtapi.user;
+package com.github.vladimirpokhodnya.authjwtapi.token.controller;
 
-import com.github.vladimirpokhodnya.authjwtapi.exception.InvalidCredentialsException;
-import com.github.vladimirpokhodnya.authjwtapi.exception.UserNotFoundException;
-import com.github.vladimirpokhodnya.authjwtapi.user.dto.AuthResponse;
-import com.github.vladimirpokhodnya.authjwtapi.user.dto.ErrorResponse;
+import com.github.vladimirpokhodnya.authjwtapi.token.exception.InvalidCredentialsException;
+import com.github.vladimirpokhodnya.authjwtapi.token.exception.UserNotFoundException;
+import com.github.vladimirpokhodnya.authjwtapi.token.AuthService;
 import com.github.vladimirpokhodnya.authjwtapi.user.dto.UserLoginDTO;
 import com.github.vladimirpokhodnya.authjwtapi.user.dto.UserRegisterDTO;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/users")
-public class UserController {
+public class AuthController {
 
-    private final UserService userService;
     private final AuthService authService;
 
-    public UserController(UserService userService, AuthService authService) {
-        this.userService = userService;
-        this.authService = authService;
-    }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> registerUser(@RequestBody UserRegisterDTO user) {
-        AuthResponse authResponse = userService.registerUser(user);
-        return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
+    public ResponseEntity<AuthResponse> registerUser(@RequestBody UserRegisterDTO registerDTO) {
+        AuthResponse authResponse = authService.registerUser(registerDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(authResponse);
     }
 
     @PostMapping("/login")
@@ -35,7 +31,7 @@ public class UserController {
             String token = authService.authenticate(loginDTO.name(), loginDTO.password());
             AuthResponse authResponse = new AuthResponse(token);
             return ResponseEntity.ok()
-                    .header("Authorization", "Bearer " + token)
+//                    .header("Authorization", "Bearer " + token)
                     .body(authResponse);
         } catch (UserNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -46,12 +42,6 @@ public class UserController {
         }
     }
 
-
-
-    @PostMapping("/hello")
-    public String hello() {
-        return "Hello World!";
-    }
-
 }
+
 
