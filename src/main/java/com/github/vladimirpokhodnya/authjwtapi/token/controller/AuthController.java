@@ -31,7 +31,6 @@ public class AuthController {
             String token = authService.authenticate(loginDTO.name(), loginDTO.password());
             AuthResponse authResponse = new AuthResponse(token);
             return ResponseEntity.ok()
-//                    .header("Authorization", "Bearer " + token)
                     .body(authResponse);
         } catch (UserNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
