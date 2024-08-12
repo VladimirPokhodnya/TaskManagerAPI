@@ -1,0 +1,4 @@
+curl -X POST http://localhost:8080/api/users/register  -H "Content-Type: application/json" -d '{"name": "name", "email": "email@email.com", "password": "password"}'
+
+curl -X POST http://localhost:8080/api/users/login  -H "Content-Type: application/json" -d '{"name": "name", "password": "password"}'
+{"token":"eyJhbGciOiJIUzI1N..."}
